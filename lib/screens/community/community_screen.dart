@@ -562,54 +562,56 @@ class _CommunityScreenState extends State<CommunityScreen> {
       ),
       builder: (context) => Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.error.withValues(alpha: 0.1),
-                shape: BoxShape.circle,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.error.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.emergency,
+                  color: AppColors.error,
+                  size: 40,
+                ),
               ),
-              child: const Icon(
-                Icons.emergency,
-                color: AppColors.error,
-                size: 40,
+              const SizedBox(height: 20),
+              const Text(
+                'Emergency Support',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Emergency Support',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+              const SizedBox(height: 12),
+              const Text(
+                'If you\'re in crisis or need immediate help, please reach out to these resources:',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColors.textSecondary),
               ),
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'If you\'re in crisis or need immediate help, please reach out to these resources:',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.textSecondary),
-            ),
-            const SizedBox(height: 24),
-            _buildEmergencyContact(
-              'National Crisis Hotline',
-              '988',
-              Icons.phone,
-            ),
-            _buildEmergencyContact(
-              'Crisis Text Line',
-              'Text HOME to 741741',
-              Icons.message,
-            ),
-            _buildEmergencyContact(
-              'Emergency Services',
-              '911',
-              Icons.local_hospital,
-            ),
-            const SizedBox(height: 20),
-          ],
+              const SizedBox(height: 24),
+              _buildEmergencyContact(
+                'National Crisis Hotline',
+                '988',
+                Icons.phone,
+              ),
+              _buildEmergencyContact(
+                'Crisis Text Line',
+                'Text HOME to 741741',
+                Icons.message,
+              ),
+              _buildEmergencyContact(
+                'Emergency Services',
+                '911',
+                Icons.local_hospital,
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
