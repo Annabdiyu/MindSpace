@@ -288,9 +288,12 @@ class _MoodCheckinScreenState extends State<MoodCheckinScreen> {
           const SizedBox(height: 24),
           
           // Mood emojis
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: MoodType.values.map((mood) => _buildMoodButton(mood)).toList(),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: MoodType.values.map((mood) => _buildMoodButton(mood)).toList(),
+            ),
           ),
           
           if (!_hasTodayEntry) ...[
