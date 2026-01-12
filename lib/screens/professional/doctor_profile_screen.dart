@@ -349,8 +349,8 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
     final now = DateTime.now();
     final dates = <DateTime>[];
     
-    // Generate next 14 days
-    for (int i = 0; i < 14; i++) {
+    // Generate next 60 days (approximately 2 months)
+    for (int i = 0; i < 60; i++) {
       final date = now.add(Duration(days: i));
       final dayName = DateFormat('EEEE').format(date);
       if (availableDays.contains(dayName)) {
