@@ -92,7 +92,7 @@ class AppointmentService {
         name: 'Dr. Sarah Johnson',
         title: 'MD, Psychiatrist',
         specialty: 'Anxiety & Depression',
-        bio: 'Dr. Johnson has over 15 years of experience specializing in anxiety disorders and depression. She uses a combination of cognitive-behavioral therapy and medication management.',
+        bio: 'Dr. Johnson has over 15 years of experience specializing in anxiety disorders and depression. She uses a combination of cognitive-behavioral therapy and medication  management.',
         rating: 4.9,
         reviewCount: 127,
         experienceYears: 15,
