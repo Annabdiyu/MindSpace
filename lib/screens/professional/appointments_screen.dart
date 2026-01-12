@@ -35,7 +35,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
           gradient: AppGradients.backgroundGradient,
         ),
         child: StreamBuilder<List<Appointment>>(
-          stream: _appointmentService.getUserAppointments(user.uid),
+          stream: _appointmentService.getUserAppointmentsFallback(user.uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
