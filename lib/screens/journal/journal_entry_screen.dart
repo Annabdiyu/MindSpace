@@ -382,4 +382,4 @@ class _JournalEntryScreenState extends State<JournalEntryScreen> {
       ),
     );
   }
-
+}
