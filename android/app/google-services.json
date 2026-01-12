@@ -12,7 +12,20 @@
           "package_name": "com.example.mind_space"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "964421032428-dsb118m80hbupd5d2mcqd4l1bkpspupj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mind_space",
+            "certificate_hash": "c8d17c17b962c0410f95ff5ecc917fd0dfeded9b"
+          }
+        },
+        {
+          "client_id": "964421032428-o1cfnesekrgtliiagfn8mrttn9b876dc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB8nTCjrx5vPBBZj2QbWH0tLEtdbXM9Z1U"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964421032428-o1cfnesekrgtliiagfn8mrttn9b876dc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "964421032428-a9v3t24ft7ofplbqs025lp0uv1g93d6q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mindSpace"
+              }
+            }
+          ]
         }
       }
     }
