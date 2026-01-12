@@ -105,7 +105,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Forgot password
                 _buildForgotPassword(),
                 
-                const SizedBox(height: 40),
+                const SizedBox(height: 24),
+                
+                // Divider with "or"
+                _buildDivider(),
+                
+                const SizedBox(height: 24),
+                
+                // Google Sign-in button
+                _buildGoogleSignInButton(),
+                
+                const SizedBox(height: 32),
                 
                 // Sign up link
                 _buildSignUpLink(),
@@ -267,6 +277,104 @@ class _LoginScreenState extends State<LoginScreen> {
         child: const Text('Forgot Password?'),
       ),
     ).animate().fadeIn(delay: 500.ms, duration: 500.ms);
+  }
+
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 1,
+            color: AppColors.textMuted.withValues(alpha: 0.3),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'or continue with',
+            style: TextStyle(
+              color: AppColors.textMuted,
+              fontSize: 14,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: 1,
+            color: AppColors.textMuted.withValues(alpha: 0.3),
+          ),
+        ),
+      ],
+    ).animate().fadeIn(delay: 550.ms, duration: 500.ms);
+  }
+
+  Widget _buildGoogleSignInButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: OutlinedButton(
+        onPressed: _isLoading ? null : _handleGoogleSignIn,
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(color: AppColors.textMuted.withValues(alpha: 0.3)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.network(
+              'https://www.google.com/favicon.ico',
+              height: 24,
+              width: 24,
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                Icons.g_mobiledata,
+                size: 24,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Continue with Google',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ).animate().fadeIn(delay: 600.ms, duration: 500.ms);
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final user = await _authService.signInWithGoogle();
+      
+      if (user != null && mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.home,
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Widget _buildSignUpLink() {
