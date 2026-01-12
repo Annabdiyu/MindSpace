@@ -71,7 +71,29 @@ class AppointmentService {
         .orderBy('appointmentDate', descending: true)
         .snapshots()
         .map((snapshot) =>
-            snapshot.docs.map((doc) => Appointment.fromFirestore(doc)).toList());
+            snapshot.docs.map((doc) => Appointment.fromFirestore(doc)).toList())
+        .handleError((error) {
+          print('Error fetching appointments: $error');
+          // If there's an index error, the error message will contain a link to create the index
+          if (error.toString().contains('index')) {
+            print('Please create the required Firestore index using the link in the error message above.');
+          }
+        });
+  }
+
+  // Fallback method without ordering (in case index doesn't exist)
+  Stream<List<Appointment>> getUserAppointmentsFallback(String userId) {
+    return _appointmentsCollection
+        .where('userId', isEqualTo: userId)
+        .snapshots()
+        .map((snapshot) {
+          final appointments = snapshot.docs
+              .map((doc) => Appointment.fromFirestore(doc))
+              .toList();
+          // Sort in memory instead
+          appointments.sort((a, b) => b.appointmentDate.compareTo(a.appointmentDate));
+          return appointments;
+        });
   }
 
   // Cancel appointment
