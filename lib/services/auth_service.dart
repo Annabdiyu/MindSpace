@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mind_space/models/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   // Get current user
   User? get currentUser => _auth.currentUser;
@@ -91,8 +93,69 @@ class AuthService {
     }
   }
 
+  // Sign in with Google
+  Future<UserModel?> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      
+      if (googleUser == null) {
+        // User cancelled the sign-in
+        return null;
+      }
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in to Firebase with the credential
+      final UserCredential result = await _auth.signInWithCredential(credential);
+      final User? user = result.user;
+
+      if (user != null) {
+        // Check if user document exists
+        final userDoc = await _firestore.collection('users').doc(user.uid).get();
+        
+        if (!userDoc.exists) {
+          // Create new user document
+          final userModel = UserModel(
+            uid: user.uid,
+            email: user.email ?? '',
+            displayName: user.displayName ?? 'User',
+            photoUrl: user.photoURL,
+            createdAt: DateTime.now(),
+            lastLoginAt: DateTime.now(),
+          );
+
+          await _firestore
+              .collection('users')
+              .doc(user.uid)
+              .set(userModel.toFirestore());
+
+          return userModel;
+        } else {
+          // Update last login time
+          await _firestore.collection('users').doc(user.uid).update({
+            'lastLoginAt': Timestamp.now(),
+          });
+
+          return await getUserData(user.uid);
+        }
+      }
+      return null;
+    } catch (e) {
+      throw 'Google sign-in failed. Please try again.';
+    }
+  }
+
   // Sign out
   Future<void> signOut() async {
+    await _googleSignIn.signOut();
     await _auth.signOut();
   }
 
