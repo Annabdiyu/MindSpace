@@ -251,10 +251,10 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
           const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.attach_money, size: 18, color: AppColors.accent),
+              const Icon(Icons.payments_outlined, size: 18, color: AppColors.accent),
               const SizedBox(width: 8),
               Text(
-                'Consultation: \$${doctor.consultationFee.toStringAsFixed(0)} / session',
+                'Consultation: ${doctor.consultationFee.toStringAsFixed(0)} ETB / session',
                 style: const TextStyle(color: AppColors.textSecondary),
               ),
             ],
@@ -499,7 +499,7 @@ class _DoctorProfileScreenState extends State<DoctorProfileScreen> {
                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
               )
             : Text(
-                'Book Appointment - \$${doctor.consultationFee.toStringAsFixed(0)}',
+                'Book Appointment - ${doctor.consultationFee.toStringAsFixed(0)} ETB',
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
       ),

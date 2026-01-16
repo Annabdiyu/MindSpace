@@ -595,19 +595,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
               ),
               const SizedBox(height: 24),
               _buildEmergencyContact(
-                'National Crisis Hotline',
-                '988',
+                'Mental Health Crisis Hotline',
+                '8335',
                 Icons.phone,
-              ),
-              _buildEmergencyContact(
-                'Crisis Text Line',
-                'Text HOME to 741741',
-                Icons.message,
-              ),
-              _buildEmergencyContact(
-                'Emergency Services',
-                '911',
-                Icons.local_hospital,
               ),
               const SizedBox(height: 20),
             ],

@@ -20,8 +20,8 @@ class _FindDoctorScreenState extends State<FindDoctorScreen> {
   @override
   void initState() {
     super.initState();
-    // Seed sample data for demo
-    _appointmentService.seedPsychiatrists();
+    // Seed sample data for demo (forceReseed: true to update with Ethiopian doctors)
+    _appointmentService.seedPsychiatrists(forceReseed: true);
   }
 
   @override

@@ -266,11 +266,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen> {
                         ),
                       );
                     },
-                    child: Text(
-                      appointment.type == AppointmentType.online
-                          ? 'Join Session'
-                          : 'Get Directions',
-                    ),
+                    child: const Text('Join Session'),
                   ),
                 ),
               ],

@@ -103,23 +103,36 @@ class AppointmentService {
     });
   }
 
+  // Clear all existing psychiatrists (for reseeding)
+  Future<void> clearPsychiatrists() async {
+    final snapshot = await _psychiatristsCollection.get();
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+  }
+
   // Seed sample psychiatrists (for demo purposes)
-  Future<void> seedPsychiatrists() async {
-    final snapshot = await _psychiatristsCollection.limit(1).get();
-    if (snapshot.docs.isNotEmpty) return; // Already seeded
+  // Set forceReseed to true to clear and reseed with new data
+  Future<void> seedPsychiatrists({bool forceReseed = false}) async {
+    if (forceReseed) {
+      await clearPsychiatrists();
+    } else {
+      final snapshot = await _psychiatristsCollection.limit(1).get();
+      if (snapshot.docs.isNotEmpty) return; // Already seeded
+    }
 
     final sampleDoctors = [
       Psychiatrist(
         id: '',
-        name: 'Dr. Sarah Johnson',
-        title: 'MD, Psychiatrist',
-        specialty: 'Anxiety & Depression',
-        bio: 'Dr. Johnson has over 15 years of experience specializing in anxiety disorders and depression. She uses a combination of cognitive-behavioral therapy and medication  management.',
+        name: 'Dr. Alemayehu Bedaso',
+        title: 'MD, Senior Psychiatrist',
+        specialty: 'General Psychiatry',
+        bio: 'Dr. Alemayehu Bedaso is a highly esteemed psychiatrist known for his extensive experience in treating various mental health conditions. With his compassionate and patient-centered approach, he builds strong therapeutic relationships with his patients. Dr. Bedaso stays updated with the latest research and treatment modalities, ensuring that his patients receive evidence-based care. His dedication to comprehensive assessment and personalized treatment has made him one of the most respected psychiatrists in Ethiopia.',
         rating: 4.9,
-        reviewCount: 127,
-        experienceYears: 15,
-        languages: ['English', 'Spanish'],
-        consultationFee: 150.0,
+        reviewCount: 203,
+        experienceYears: 18,
+        languages: ['Amharic', 'English'],
+        consultationFee: 8000.0, // ETB
         isAvailableOnline: true,
         isAvailableInPerson: true,
         availability: {
@@ -130,17 +143,36 @@ class AppointmentService {
       ),
       Psychiatrist(
         id: '',
-        name: 'Dr. Michael Chen',
-        title: 'PhD, Clinical Psychologist',
-        specialty: 'Trauma & PTSD',
-        bio: 'Dr. Chen specializes in trauma-focused therapy and has helped hundreds of patients recover from PTSD. He is trained in EMDR and prolonged exposure therapy.',
-        rating: 4.8,
-        reviewCount: 89,
-        experienceYears: 12,
-        languages: ['English', 'Mandarin'],
-        consultationFee: 130.0,
+        name: 'Dr. Yirgu Gebretsadik',
+        title: 'MD, Child & Adolescent Psychiatrist',
+        specialty: 'Child & Adolescent Psychiatry',
+        bio: 'Dr. Yirgu Gebretsadik is a renowned expert in child and adolescent psychiatry. With his profound understanding of the unique challenges faced by young individuals, he provides specialized care to children and teenagers struggling with mental health issues. Dr. Gebretsadik is known for his ability to create a safe and nurturing environment for his young patients, building trust and effective communication. His commitment to advocacy and raising awareness of mental health in Ethiopia is commendable.',
+        rating: 4.9,
+        reviewCount: 178,
+        experienceYears: 15,
+        languages: ['Amharic', 'English', 'Tigrinya'],
+        consultationFee: 7500.0, // ETB
         isAvailableOnline: true,
-        isAvailableInPerson: false,
+        isAvailableInPerson: true,
+        availability: {
+          'Monday': ['2:00 PM', '3:00 PM', '4:00 PM'],
+          'Wednesday': ['10:00 AM', '11:00 AM', '2:00 PM'],
+          'Friday': ['9:00 AM', '10:00 AM'],
+        },
+      ),
+      Psychiatrist(
+        id: '',
+        name: 'Dr. Mulugeta Tarekegn',
+        title: 'MD, Geriatric Psychiatrist',
+        specialty: 'Geriatric Psychiatry',
+        bio: 'Dr. Mulugeta Tarekegn is a respected psychiatrist with a specialization in geriatric psychiatry. With Ethiopia\'s aging population, Dr. Tarekegn\'s expertise in this field is invaluable. He offers comprehensive assessments, individualized treatment plans, and ongoing support to older adults facing cognitive and emotional challenges. Dr. Tarekegn\'s compassionate care and commitment to enhancing the quality of life for elderly patients have earned him widespread recognition and trust.',
+        rating: 4.8,
+        reviewCount: 145,
+        experienceYears: 20,
+        languages: ['Amharic', 'English'],
+        consultationFee: 6000.0, // ETB
+        isAvailableOnline: true,
+        isAvailableInPerson: false, // Online only
         availability: {
           'Tuesday': ['10:00 AM', '11:00 AM', '4:00 PM'],
           'Thursday': ['9:00 AM', '10:00 AM', '2:00 PM', '3:00 PM'],
@@ -148,21 +180,59 @@ class AppointmentService {
       ),
       Psychiatrist(
         id: '',
-        name: 'Dr. Emily Parker',
-        title: 'MD, Child & Adolescent Psychiatrist',
-        specialty: 'Youth Mental Health',
-        bio: 'Dr. Parker focuses on helping children and teenagers navigate mental health challenges. She creates a safe, supportive environment for young patients.',
-        rating: 4.9,
-        reviewCount: 156,
-        experienceYears: 10,
-        languages: ['English'],
-        consultationFee: 175.0,
+        name: 'Dr. Bamlaku Enkaba',
+        title: 'MD, Addiction Psychiatrist',
+        specialty: 'Addiction Psychiatry',
+        bio: 'Dr. Bamlaku Enkaba is a leading expert in addiction psychiatry in Ethiopia. With his extensive knowledge and experience, he helps individuals struggling with substance abuse disorders recover and rebuild their lives. Dr. Enkaba employs a holistic approach to treatment, combining evidence-based therapies with empathy and understanding. His dedication to continuous professional development ensures that his patients receive the latest advancements in addiction psychiatry.',
+        rating: 4.7,
+        reviewCount: 112,
+        experienceYears: 14,
+        languages: ['Amharic', 'English', 'Oromiffa'],
+        consultationFee: 5000.0, // ETB
         isAvailableOnline: true,
         isAvailableInPerson: true,
         availability: {
-          'Monday': ['2:00 PM', '3:00 PM', '4:00 PM'],
-          'Wednesday': ['10:00 AM', '11:00 AM', '2:00 PM'],
-          'Friday': ['9:00 AM', '10:00 AM'],
+          'Monday': ['9:00 AM', '10:00 AM', '11:00 AM'],
+          'Wednesday': ['2:00 PM', '3:00 PM', '4:00 PM'],
+          'Friday': ['10:00 AM', '11:00 AM'],
+        },
+      ),
+      Psychiatrist(
+        id: '',
+        name: 'Dr. Selamawit Yimer',
+        title: 'MD, Psychiatrist',
+        specialty: 'Mood Disorders & Anxiety',
+        bio: 'Dr. Selamawit Yimer is a well-regarded psychiatrist specializing in mood disorders and anxiety-related conditions. With her expertise, she offers accurate diagnoses, evidence-based treatment options, and compassionate care to her patients. Dr. Yimer\'s non-judgmental and supportive approach creates a safe space for individuals to openly discuss their mental health concerns. Her commitment to ongoing research and her patients\' well-being allows her to provide cutting-edge care.',
+        rating: 4.9,
+        reviewCount: 189,
+        experienceYears: 12,
+        languages: ['Amharic', 'English'],
+        consultationFee: 7000.0, // ETB
+        isAvailableOnline: true,
+        isAvailableInPerson: true,
+        availability: {
+          'Tuesday': ['9:00 AM', '10:00 AM', '2:00 PM'],
+          'Thursday': ['10:00 AM', '11:00 AM', '3:00 PM', '4:00 PM'],
+          'Saturday': ['9:00 AM', '10:00 AM', '11:00 AM'],
+        },
+      ),
+      Psychiatrist(
+        id: '',
+        name: 'Dr. Tesfaye Mulatu',
+        title: 'MD, Trauma Psychiatrist',
+        specialty: 'Trauma & PTSD',
+        bio: 'Dr. Tesfaye Mulatu is a dedicated psychiatrist who focuses on providing high-quality care to individuals with trauma-related mental health conditions. His specialized training and experience in trauma psychiatry enable him to employ effective treatment approaches tailored to the unique needs of trauma survivors. Dr. Mulatu\'s compassionate and patient-centered approach has helped numerous individuals heal and regain control of their lives.',
+        rating: 4.8,
+        reviewCount: 134,
+        experienceYears: 16,
+        languages: ['Amharic', 'English'],
+        consultationFee: 6500.0, // ETB
+        isAvailableOnline: true,
+        isAvailableInPerson: false, // Online only
+        availability: {
+          'Monday': ['10:00 AM', '11:00 AM', '3:00 PM'],
+          'Wednesday': ['9:00 AM', '10:00 AM', '2:00 PM', '3:00 PM'],
+          'Friday': ['2:00 PM', '3:00 PM', '4:00 PM'],
         },
       ),
     ];
